@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Alert } from 'react-native';
 import * as Location from 'expo-location';
@@ -7,6 +6,7 @@ import Weather from './Weather';
 import axios from 'axios';
 
 const API_KEY = '71df472aef68a720f01a54a6ab730d30'
+
 export default class extends React.Component {
 
   state = {
