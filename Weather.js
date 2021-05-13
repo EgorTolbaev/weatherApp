@@ -1,8 +1,8 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Weather({temp}){
+export default function Weather({temp, condition}){
     return (
         <View style={styles.container}>
             <Text>{temp}</Text>
@@ -11,7 +11,10 @@ export default function Weather({temp}){
 }
 
 Weather.propTypes = {
-    temp: propTypes.number.isRequired,
+    temp: PropTypes.number.isRequired,
+    condition: PropTypes.oneOf(["Thunderstorm", "Drizzle", "Rain", "Snow", "Mist", "Smoke", "Haze",
+        "Dust", "Fog", "Sand", "Ash", "Squall", "Tornado", "Clear", "Clouds"
+    ]).isRequired,
 }
 
 const styles = StyleSheet.create({
