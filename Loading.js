@@ -1,12 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ActivityIndicator } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Loading(){
     return(
-        <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+        <LinearGradient
+        colors={['#56CCF2', '#2F80ED']}
+        style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <Text style={styles.text}>Получение погоды...</Text>
-        </View>
+             <ActivityIndicator size={"large"} color={"white"}/>
+        </LinearGradient>
     )
 }
 
@@ -16,10 +20,9 @@ const styles = StyleSheet.create({
         justifyContent:"flex-end",
         paddingHorizontal: 30,
         paddingVertical: 100,
-        backgroundColor: "#FDF6AA",
     },
     text: {
-        color: "#2c2c2c",
+        color: "white",
         fontSize: 30
     }
 })
