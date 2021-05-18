@@ -67,15 +67,17 @@ const weatherOptions = {
     },
 }
 
-export default function Weather({temp, condition}){
+export default function Weather({temp, tempMin, tempMax, location, condition}){
     return (
         <LinearGradient
         colors={weatherOptions[condition].gradient}
         style={styles.container}>
             <StatusBar barStyle="light-content" />
             <View style={styles.halfContainer}>
+                <Text style={styles.location}>{location}</Text>
                 <MaterialCommunityIcons name={weatherOptions[condition].iconName} size={96} color="white"/>
                 <Text style={styles.temp}>{temp}°</Text>
+                <Text style={styles.diffTemp}>{tempMin}°/{tempMax}°</Text>
             </View>
             <View style={{...styles.halfContainer, ...styles.textContainer}}>
                 <Text style={styles.title}>{weatherOptions[condition].title}</Text>
@@ -87,6 +89,9 @@ export default function Weather({temp, condition}){
 
 Weather.propTypes = {
     temp: PropTypes.number.isRequired,
+    tempMin: PropTypes.number.isRequired,
+    tempMax: PropTypes.number.isRequired,
+    location: PropTypes.string.isRequired,
     condition: PropTypes.oneOf(["Thunderstorm", "Drizzle", "Rain", "Snow", "Dust", "Smoke", "Haze", "Mist", "Clear", "Clouds"]).isRequired
 }
 
@@ -119,5 +124,13 @@ const styles = StyleSheet.create({
     textContainer: {
         paddingHorizontal: 20,
         alignItems: 'flex-start'
-    }
+    },
+    location: {
+        fontSize: 20,
+        color: 'white',
+    },
+    diffTemp: {
+        fontSize: 20,
+        color: 'white',
+    },
 })
