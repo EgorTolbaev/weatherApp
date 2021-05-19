@@ -20,7 +20,6 @@ npm run ios
 -   На эмуляторе android
  ```bash
 npm run android
-npm start
 ```
 -   На своем устройстве использую QR-код и Expo
  ```bash
