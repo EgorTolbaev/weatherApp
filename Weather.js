@@ -57,7 +57,7 @@ const weatherOptions = {
     },
 }
 
-export default function Weather({temp, tempMin, tempMax, location, condition, descriptionWeather}){
+export default function Weather({temp, tempMin, tempMax, humidity, location, condition, descriptionWeather, wind}){
     return (
         <LinearGradient
         colors={weatherOptions[condition].gradient}
@@ -66,8 +66,20 @@ export default function Weather({temp, tempMin, tempMax, location, condition, de
             <View style={styles.halfContainer}>
                 <Text style={styles.location}>{location}</Text>
                 <MaterialCommunityIcons name={weatherOptions[condition].iconName} size={96} color="white"/>
-                <Text style={styles.temp}>{temp}°</Text>
-                <Text style={styles.diffTemp}>{tempMin}°/{tempMax}°</Text>
+                <View style={styles.horizontal}>
+                    <Text style={styles.temp}>{temp}°</Text>
+                    <View style={styles.border}></View>
+                    <View >
+                        <MaterialCommunityIcons name={"coolant-temperature"} size={30} color="white"/>
+                        <MaterialCommunityIcons name={"weather-windy"} size={30} color="white"/>
+                        <MaterialCommunityIcons name={"umbrella-outline"} size={30} color="white"/>
+                    </View>
+                    <View >
+                        <Text style={styles.weather}>{tempMin}°/{tempMax}°</Text>
+                        <Text style={styles.weather}>{wind}м/с</Text>
+                        <Text style={styles.weather}>{humidity}%</Text>
+                    </View>
+                </View>
             </View>
             <View style={{...styles.halfContainer, ...styles.textContainer}}>
                 <Text style={styles.title}>{weatherOptions[condition].title}</Text>
@@ -81,8 +93,10 @@ Weather.propTypes = {
     temp: PropTypes.number.isRequired,
     tempMin: PropTypes.number.isRequired,
     tempMax: PropTypes.number.isRequired,
+    humidity: PropTypes.number.isRequired,
     location: PropTypes.string.isRequired,
     descriptionWeather: PropTypes.string.isRequired,
+    wind: PropTypes.number.isRequired,
     condition: PropTypes.oneOf(["Thunderstorm", "Drizzle", "Rain", "Snow", "Dust", "Smoke", "Haze", "Mist", "Clear", "Clouds"]).isRequired
 }
 
@@ -98,8 +112,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     temp: {
-        fontSize: 42,
+        fontSize: 70,
         color: 'white',
+        paddingHorizontal: 5,
     },
     title: {
         color: 'white',
@@ -120,8 +135,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
     },
-    diffTemp: {
+    weather: {
         fontSize: 20,
         color: 'white',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    border: {
+        borderStyle: 'dotted',
+        borderColor: 'white',
+        height: 99,
+        borderLeftWidth:1,
+        paddingHorizontal: 5,
     },
 })
