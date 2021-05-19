@@ -1,7 +1,7 @@
 <h1 style="text-align: center;">Weather</h1>
 
  Зарегистрируйтесь на [OpenWeatherMap](https://openweathermap.org/) и создайте бесплатный ключ API. 
-# Зпуск в терминале
+## Зпуск в терминале
 1. Клонируйте репозиторий
  ```bash
 git clone https://github.com/EgorTolbaev/weatherApp.git
