@@ -10,7 +10,8 @@ const API_KEY = '71df472aef68a720f01a54a6ab730d30'
 export default class extends React.Component {
 
   state = {
-    isLoading: true
+    isLoading: true,
+    isLoadingDaily: true
   }
 
   getWeather = async (latitude, longitude) =>{
@@ -25,15 +26,24 @@ export default class extends React.Component {
       condition: weather[0].main,
       descriptionWeather: weather[0].description,
       wind: speed,
-
     });
   }
+
+  getWeatherDaily = async (latitude, longitude) =>{
+    const {data: {daily}} = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&appid=${API_KEY}&units=metric`);
+    this.setState({
+      isLoadingDaily: false,
+      daily: daily,
+    });
+  }
+
 
   getLocation = async () => {
     try{
       await Location.requestPermissionsAsync();
       const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync();
       this.getWeather(latitude, longitude);
+      this.getWeatherDaily(latitude, longitude);
     } catch(error){
       Alert.alert('Не могу определить местоположение', "Очень грустно :(");
     }
@@ -44,9 +54,9 @@ export default class extends React.Component {
   }
 
   render(){
-    const {isLoading, temp, tempMin, humidity, tempMax, location, condition, descriptionWeather, wind} = this.state;
+    const {isLoading, isLoadingDaily, temp, tempMin, humidity, tempMax, location, condition, descriptionWeather, wind, daily} = this.state;
     return(
-      isLoading ? <Loading /> : <Weather temp={Math.round(temp)} tempMin={Math.round(tempMin)} humidity={humidity} tempMax={Math.round(tempMax)}  location={location} condition={condition} descriptionWeather={descriptionWeather} wind={wind}/>
+      isLoading || isLoadingDaily ? <Loading /> : <Weather temp={Math.round(temp)} tempMin={Math.round(tempMin)} humidity={humidity} tempMax={Math.round(tempMax)}  location={location} condition={condition} descriptionWeather={descriptionWeather} wind={wind} daily={daily}/>
     );
   }
 }

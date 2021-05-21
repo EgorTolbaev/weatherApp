@@ -57,7 +57,28 @@ const weatherOptions = {
     },
 }
 
-export default function Weather({temp, tempMin, tempMax, humidity, location, condition, descriptionWeather, wind}){
+function renderItem(item){
+    let unixTime = item.dt;
+    let dateobj = new Date(unixTime*1000);
+
+    function pad(n) {
+       return n < 10 ? "0" + n : n;
+    }
+    const month = ["янв", "фев", "мар", "апр", "май", "июн", "июл","авг", "сен", "окт", "ноя", "дек"];
+    let date = pad(dateobj.getDate()) + " " + month[dateobj.getMonth()] //+ " " + dateobj.getFullYear();
+    
+    return (
+        <View key={item.dt} style={{ alignSelf: 'center', flexDirection: 'row' }}>
+                <Text style={styles.weatherDailyText}>{date}</Text>
+            <View style={styles.weatherDailyView} />
+                <MaterialCommunityIcons name={weatherOptions[item.weather[0].main].iconName} size={30} color="white" style={{paddingRight:  35}}/>
+            <View style={styles.weatherDailyView} />
+                <Text style={styles.weatherDailyText}>{Math.round(item.temp.day)}°</Text> 
+         </View>
+    )
+}
+
+export default function Weather({temp, tempMin, tempMax, humidity, location, condition, descriptionWeather, wind, daily}){
     return (
         <LinearGradient
         colors={weatherOptions[condition].gradient}
@@ -84,6 +105,10 @@ export default function Weather({temp, tempMin, tempMax, humidity, location, con
             <View style={{...styles.halfContainer, ...styles.textContainer}}>
                 <Text style={styles.title}>{weatherOptions[condition].title}</Text>
                 <Text style={styles.subtitle}>{descriptionWeather}</Text>
+                <View style = {styles.lineStyle} />
+                <View>
+                    {daily.map((item) => renderItem(item))}
+                </View>
             </View>
         </LinearGradient>
     )
@@ -97,6 +122,7 @@ Weather.propTypes = {
     location: PropTypes.string.isRequired,
     descriptionWeather: PropTypes.string.isRequired,
     wind: PropTypes.number.isRequired,
+    daily: PropTypes.array.isRequired,
     condition: PropTypes.oneOf(["Thunderstorm", "Drizzle", "Rain", "Snow", "Dust", "Smoke", "Haze", "Mist", "Clear", "Clouds"]).isRequired
 }
 
@@ -120,7 +146,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 40,
         fontWeight: "300",
-        marginBottom: 10
+        marginBottom: 1,
     },
     subtitle: {
         color: 'white',
@@ -138,6 +164,7 @@ const styles = StyleSheet.create({
     weather: {
         fontSize: 20,
         color: 'white',
+        paddingHorizontal: 1,
     },
     horizontal: {
         flexDirection: 'row',
@@ -151,4 +178,19 @@ const styles = StyleSheet.create({
         borderLeftWidth:1,
         paddingHorizontal: 5,
     },
+    weatherDailyText: {
+        color: 'white',
+        fontSize: 20,
+        paddingHorizontal: 10,
+    },
+    weatherDailyView: {
+        flex: 1, 
+        alignSelf: 'stretch',
+    },
+    lineStyle:{
+        borderWidth: 1,
+        borderColor:'white',
+        margin:10,
+        width: 300,
+   }
 })
