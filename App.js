@@ -40,7 +40,7 @@ export default class extends React.Component {
 
   getLocation = async () => {
     try{
-      await Location.requestPermissionsAsync();
+      await Location.requestPermissionsAsync(); // requestForegroundPermissionsAsync();
       const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync();
       this.getWeather(latitude, longitude);
       this.getWeatherDaily(latitude, longitude);
